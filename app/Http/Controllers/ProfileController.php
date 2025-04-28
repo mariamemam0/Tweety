@@ -63,5 +63,7 @@ class ProfileController extends Controller
         return view('profiles.show',[
             'user'=>$user      
         ]);
+
      }
+      
 }
