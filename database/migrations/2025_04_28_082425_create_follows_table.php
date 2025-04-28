@@ -9,6 +9,8 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
+    //Pivot Table = Table that connects two models together.
+   //(In our case, follows table connects users to other users.)
     public function up(): void
     {
         Schema::create('follows', function (Blueprint $table) {
