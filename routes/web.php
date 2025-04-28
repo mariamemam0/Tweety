@@ -1,7 +1,9 @@
 <?php
 
+use App\Http\Controllers\AvatarController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TweetController;
+use App\Models\User;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -22,5 +24,11 @@ Route::get('/', [TweetController::class, 'index'])->middleware('auth');
 Route::post('/tweets',[TweetController::class,'store'])->middleware('auth');
 Route::get('profile/{user:username}',[ProfileController::class,'show'])->middleware('auth');
 
+Route::post('/profile/{user:username}/follow', function (User $user) {
+    auth()->user()->following()->toggle($user);
+    return back();
+})->name('follow');
+
+Route::put('/profile/{user}/avatar', [AvatarController::class, 'store'])->name('profile.avatar');
 
 require __DIR__.'/auth.php';
