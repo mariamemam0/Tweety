@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AvatarController;
+use App\Http\Controllers\FollowController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TweetController;
 use App\Models\User;
@@ -22,7 +23,7 @@ Route::middleware('auth')->group(function () {
 
 Route::get('/', [TweetController::class, 'index'])->middleware('auth');
 Route::post('/tweets',[TweetController::class,'store'])->middleware('auth');
-Route::get('profile/{user:username}',[ProfileController::class,'show'])->middleware('auth');
+Route::get('profile/{user:username}',[ProfileController::class,'show'])->name('profile')->middleware('auth');
 
 Route::post('/profile/{user:username}/follow', function (User $user) {
     auth()->user()->following()->toggle($user);
@@ -31,4 +32,9 @@ Route::post('/profile/{user:username}/follow', function (User $user) {
 
 Route::put('/profile/{user}/avatar', [AvatarController::class, 'store'])->name('profile.avatar');
 
+
+//show followers
+Route::get('/profile/{user:username}/followers',[FollowController::class,'followers'])->name('profile.followers');
+//show followings
+Route::get('/profile/{user:username}/followings',[FollowController::class,'followings'])->name('profile.following');
 require __DIR__.'/auth.php';
