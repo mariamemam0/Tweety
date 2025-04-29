@@ -41,6 +41,16 @@
     </form>
     @endif
 
+
+    <h2>Followers:</h2>
+@foreach ($followers as $follower)
+    <p>{{ $follower->name }}</p>
+@endforeach
+
+<h2>Following:</h2>
+@foreach ($following as $followedUser)
+    <p>{{ $followedUser->name }}</p>
+@endforeach
     <!-- Display user's tweets -->
     <h2 class="text-xl mt-4 mb-2">Tweets</h2>
 
