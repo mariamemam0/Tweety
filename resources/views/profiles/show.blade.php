@@ -64,4 +64,8 @@
             {{ auth()->user()->following->contains($user) ? 'Unfollow' : 'Follow' }}
         </button>
     </form>
+
+
+
+    
 @endsection
