@@ -29,7 +29,7 @@ class UserFollowed extends Notification
      */
     public function via(object $notifiable): array
     {
-        return ['database'];
+        return ['database','mail'];
     }
 
     /**
@@ -38,9 +38,11 @@ class UserFollowed extends Notification
     public function toMail(object $notifiable): MailMessage
     {
         return (new MailMessage)
-            ->line('The introduction to the notification.')
-            ->action('Notification Action', url('/'))
-            ->line('Thank you for using our application!');
+        ->subject('You have a new follower!')
+        ->greeting('Hi ' . $notifiable->name . ',')
+        ->line($this->follower->name . ' has followed you.')
+        ->action('View Profile', url('/profile/' . $this->follower->username))
+        ->line('Thanks for using our app!');
     }
 
     public function toDatabase($notifiable)
