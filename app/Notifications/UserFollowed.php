@@ -2,6 +2,7 @@
 
 namespace App\Notifications;
 
+use App\Models\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
@@ -14,9 +15,11 @@ class UserFollowed extends Notification
     /**
      * Create a new notification instance.
      */
-    public function __construct()
+
+     public $follower;
+    public function __construct(User $follower)
     {
-        //
+        $this->follower = $follower;
     }
 
     /**
@@ -26,7 +29,7 @@ class UserFollowed extends Notification
      */
     public function via(object $notifiable): array
     {
-        return ['mail'];
+        return ['database'];
     }
 
     /**
@@ -40,6 +43,14 @@ class UserFollowed extends Notification
             ->line('Thank you for using our application!');
     }
 
+    public function toDatabase($notifiable)
+    {
+        return [
+            'message' => "{$this->follower->name} followed you",
+            'follower_id' => $this->follower->id,
+        ];
+    }
+
     /**
      * Get the array representation of the notification.
      *
@@ -48,7 +59,8 @@ class UserFollowed extends Notification
     public function toArray(object $notifiable): array
     {
         return [
-            //
+            'message' => "{$this->follower->name} followed you",
+            'follower_id' => $this->follower->id,
         ];
     }
 }
