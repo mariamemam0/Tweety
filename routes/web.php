@@ -40,5 +40,12 @@ Route::get('/notifications', [NotificationController::class, 'index'])->name('no
 
 
 Route::post('/notifications/{notification}/read', [NotificationController::class, 'markAsRead'])->name('notifications.read');
+Route::get('/test-mail', function () {
+    Mail::raw('This is a test email!', function ($message) {
+        $message->to('your_email@example.com') // Replace with your email
+                ->subject('Test Email');
+    });
 
+    return 'Test email sent!';
+});
 require __DIR__.'/auth.php';
