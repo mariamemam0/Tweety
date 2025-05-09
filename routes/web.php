@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AvatarController;
 use App\Http\Controllers\FollowController;
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TweetController;
 use App\Models\User;
@@ -25,10 +26,7 @@ Route::get('/', [TweetController::class, 'index'])->middleware('auth');
 Route::post('/tweets',[TweetController::class,'store'])->middleware('auth');
 Route::get('profile/{user:username}',[ProfileController::class,'show'])->name('profile')->middleware('auth');
 
-Route::post('/profile/{user:username}/follow', function (User $user) {
-    auth()->user()->following()->toggle($user);
-    return back();
-})->name('follow');
+Route::post('/profile/{user:username}/follow', [FollowController::class, 'follow'])->name('follow');
 
 Route::put('/profile/{user}/avatar', [AvatarController::class, 'store'])->name('profile.avatar');
 
@@ -37,4 +35,10 @@ Route::put('/profile/{user}/avatar', [AvatarController::class, 'store'])->name('
 Route::get('/profile/{user:username}/followers',[FollowController::class,'followers'])->name('profile.followers');
 //show followings
 Route::get('/profile/{user:username}/followings',[FollowController::class,'followings'])->name('profile.following');
+
+Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications.index');
+
+
+Route::post('/notifications/{notification}/read', [NotificationController::class, 'markAsRead'])->name('notifications.read');
+
 require __DIR__.'/auth.php';
