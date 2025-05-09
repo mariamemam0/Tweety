@@ -15,6 +15,7 @@ class AvatarController extends Controller
         ]);
 
         $path = $request->file('avatar')->store('avatars', 'public');
+        //dd($path);
         $user->update([
             'avatar' => $path,
         ]);
